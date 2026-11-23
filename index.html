@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Disentangling dataset size from synthetic diversity in tuberculosis chest X-ray classification - Connor Pink, Ed Sykes">
+  <meta name="description" content="Diffusion beats WGAN-GP on FID, but neither synthetic set beats a count-matched duplicate-real control for TB chest X-ray classification. Canadian AI 2026.">
+  <meta name="keywords" content="synthetic data, data augmentation, diffusion models, WGAN-GP, tuberculosis, chest X-ray, medical imaging, generative AI, RoentGen, DenseNet">
+  <meta name="author" content="Connor Pink, Ed Sykes">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="University of Guelph">
+  <meta property="og:title" content="Disentangling dataset size from synthetic diversity in tuberculosis chest X-ray classification">
+  <meta property="og:description" content="Diffusion beats WGAN-GP on FID, but neither synthetic set beats a count-matched duplicate-real control for TB chest X-ray classification. Canadian AI 2026.">
+  <meta property="og:url" content="https://connorpink.github.io/synthetic-tb-cxr/">
+  <meta property="og:image" content="https://connorpink.github.io/synthetic-tb-cxr/static/images/social_preview.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Real, WGAN-GP and diffusion-generated chest X-rays side by side">
+  <meta property="article:published_time" content="2026-05-25T00:00:00.000Z">
+  <meta property="article:author" content="Connor Pink">
+  <meta property="article:section" content="Research">
+  <meta property="article:tag" content="Synthetic Data">
+  <meta property="article:tag" content="Medical Imaging">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Disentangling dataset size from synthetic diversity in tuberculosis chest X-ray classification">
+  <meta name="twitter:description" content="Diffusion beats WGAN-GP on FID, but neither synthetic set beats a count-matched duplicate-real control for TB chest X-ray classification. Canadian AI 2026.">
+  <meta name="twitter:image" content="https://connorpink.github.io/synthetic-tb-cxr/static/images/social_preview.jpg">
+  <meta name="twitter:image:alt" content="Real, WGAN-GP and diffusion-generated chest X-rays side by side">
+
+  <!-- Academic/Research Specific -->
+  <meta name="citation_title" content="Disentangling dataset size from synthetic diversity in tuberculosis chest X-ray classification">
+  <meta name="citation_author" content="Pink, Connor">
+  <meta name="citation_author" content="Sykes, Ed">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_conference_title" content="Proceedings of the 39th Canadian Conference on Artificial Intelligence">
+  <meta name="citation_volume" content="318">
+  <meta name="citation_firstpage" content="954">
+  <meta name="citation_lastpage" content="961">
+  <meta name="citation_publisher" content="PMLR">
+  <meta name="citation_pdf_url" content="https://raw.githubusercontent.com/mlresearch/v318/main/assets/pink26a/pink26a.pdf">
+
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2563eb">
+  <meta name="msapplication-TileColor" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+
+  <title>Disentangling dataset size from synthetic diversity in TB chest X-ray classification - Connor Pink, Ed Sykes</title>
+
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="apple-touch-icon" href="static/images/favicon.ico">
+
+  <!-- Critical CSS - Load synchronously -->
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <!-- Non-critical CSS - Load asynchronously -->
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+  <!-- Fallback for browsers that don't support preload -->
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  </noscript>
+
+  <!-- Fonts - Optimized loading -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Defer non-critical JavaScript -->
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+
+  <!-- Structured Data for Academic Papers -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "Disentangling dataset size from synthetic diversity in tuberculosis chest X-ray classification",
+    "description": "Diffusion beats WGAN-GP on FID, but neither synthetic set beats a count-matched duplicate-real control for TB chest X-ray classification.",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Connor Pink",
+        "url": "https://connorpink.me",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "University of Guelph"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Ed Sykes",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "University of Guelph"
+        }
+      }
+    ],
+    "datePublished": "2026-05-25",
+    "publisher": {
+      "@type": "Organization",
+      "name": "PMLR"
+    },
+    "isPartOf": "Proceedings of the 39th Canadian Conference on Artificial Intelligence, PMLR 318",
+    "url": "https://connorpink.github.io/synthetic-tb-cxr/",
+    "sameAs": "https://proceedings.mlr.press/v318/pink26a.html",
+    "image": "https://connorpink.github.io/synthetic-tb-cxr/static/images/social_preview.jpg",
+    "keywords": ["synthetic data", "data augmentation", "diffusion models", "WGAN-GP", "tuberculosis", "chest X-ray", "medical imaging"],
+    "abstract": "Synthetic data augmentation is often proposed as a remedy for limited and imbalanced medical imaging datasets. We study tuberculosis detection on the Tuberculosis Chest X-ray Database by training a 256×256 WGAN-GP and a 512×512 latent diffusion model fine-tuned from RoentGen-v2. We evaluated both for image quality and downstream utility. On generative metrics, diffusion outperforms WGAN-GP, achieving lower FID (6.56 vs. 9.28) and substantially lower radiology-aligned Rad-Dino FID (117.89 vs. 201.78), along with higher SSIM/MS-SSIM under our deterministic gen–real pairing protocol. However, in controlled DenseNet-121 classifier experiments under a fixed optimization budget (4,000 steps with identical selection criteria), synthetic augmentation does not outperform a count-matched duplicate-real control at matched dataset size. The duplicate-real control yields the best downstream performance despite adding no new information (e.g., 0.9981 ± 0.0013 test AUPRC at r = 5), while the best synthetic setting is diffusion at low ratio (r = 0.25). Increasing the synthetic-to-real ratio is not beneficial: high synthetic proportions degrade downstream performance, with particularly sharp deterioration for WGAN-GP at large ratios. Overall, the study demonstrates that superiority on generative metrics does not guarantee downstream benefit and highlights the importance of rigorous, count-matched augmentation controls when claiming gains from synthetic data.",
+    "isAccessibleForFree": true,
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntity": {
+      "@type": "WebPage",
+      "@id": "https://connorpink.github.io/synthetic-tb-cxr/"
+    },
+    "about": [
+      {
+        "@type": "Thing",
+        "name": "Synthetic data augmentation"
+      },
+      {
+        "@type": "Thing",
+        "name": "Medical image classification"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <main id="main-content">
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Disentangling dataset size from synthetic diversity in tuberculosis chest X-ray classification</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://connorpink.me" target="_blank">Connor Pink</a>,</span>
+              <span class="author-block">Ed Sykes</span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">School of Computer Science, University of Guelph<br>Canadian AI 2026 · PMLR 318</span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block">
+                  <a href="https://raw.githubusercontent.com/mlresearch/v318/main/assets/pink26a/pink26a.pdf" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+
+                <span class="link-block">
+                  <a href="https://proceedings.mlr.press/v318/pink26a.html" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-book"></i>
+                    </span>
+                    <span>PMLR</span>
+                  </a>
+                </span>
+
+                <span class="link-block">
+                  <a href="#BibTeX"
+                  class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-quote-right"></i>
+                    </span>
+                    <span>Cite</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+<!-- Teaser image -->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <div class="publication-banner">
+        <img src="static/images/samples_grid.jpg" alt="Grid of chest X-rays in six columns: real TB, real normal, WGAN-GP TB, WGAN-GP normal, diffusion TB and diffusion normal." width="1600" height="1098">
+      </div>
+      <h2 class="subtitle has-text-centered">
+        Diffusion samples look far more like real X-rays than WGAN-GP samples. Does that make them better training data?
+      </h2>
+    </div>
+  </div>
+</section>
+<!-- End teaser image -->
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Synthetic data augmentation is often proposed as a remedy for limited and imbalanced medical imaging datasets. We study tuberculosis detection on the Tuberculosis Chest X-ray Database by training a 256×256 WGAN-GP and a 512×512 latent diffusion model fine-tuned from RoentGen-v2. We evaluated both for image quality and downstream utility. On generative metrics, diffusion outperforms WGAN-GP, achieving lower FID (6.56 vs. 9.28) and substantially lower radiology-aligned Rad-Dino FID (117.89 vs. 201.78), along with higher SSIM/MS-SSIM under our deterministic gen–real pairing protocol. However, in controlled DenseNet-121 classifier experiments under a fixed optimization budget (4,000 steps with identical selection criteria), synthetic augmentation does not outperform a count-matched duplicate-real control at matched dataset size. The duplicate-real control yields the best downstream performance despite adding no new information (e.g., 0.9981 ± 0.0013 test AUPRC at r = 5), while the best synthetic setting is diffusion at low ratio (r = 0.25). Increasing the synthetic-to-real ratio is not beneficial: high synthetic proportions degrade downstream performance, with particularly sharp deterioration for WGAN-GP at large ratios. Overall, the study demonstrates that superiority on generative metrics does not guarantee downstream benefit and highlights the importance of rigorous, count-matched augmentation controls when claiming gains from synthetic data.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+
+<!-- Method -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Experimental Design</h2>
+        <div class="publication-body">
+          <img src="static/images/pipeline.png" alt="Pipeline diagram: real normal and TB X-rays, generative models, preprocessing and splits, three experiment designs with different real-to-synthetic ratios, and the evaluation metrics." loading="lazy" width="1659" height="1045">
+        </div>
+        <div class="content has-text-justified">
+          <p>
+            4,200 real X-rays (3,500 normal, 700 TB) plus synthetic images feed three designs: fixed size (E1), augmented fixed budget (E2), and augmented scaled budget (E3). Every arm is compared against a control that duplicates real images up to the same count, so any gain from synthetic data has to come from new variety rather than from simply having more samples.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End method -->
+
+
+<!-- Results -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column">
+        <h2 class="title is-3">Results</h2>
+        <div class="publication-body">
+          <img src="static/images/experiment_comparison.png" alt="Four line charts of test AUC, test accuracy, TB recall and TB precision against synthetic ratio for each experiment and generator." loading="lazy" width="2000" height="1417">
+        </div>
+        <div class="content has-text-justified">
+          <p>
+            Test AUC, accuracy, TB recall and TB precision as the synthetic share grows, for each design and generator. Neither generator beats the duplicate-real control. The best synthetic setting is diffusion at a low ratio (0.25 synthetic images per real one), and larger synthetic shares make things worse, especially with WGAN-GP.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End results -->
+
+
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <div class="bibtex-header">
+        <h2 class="title">BibTeX</h2>
+        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+          <i class="fas fa-copy"></i>
+          <span class="copy-text">Copy</span>
+        </button>
+      </div>
+      <pre id="bibtex-code"><code>@InProceedings{pmlr-v318-pink26a,
+  title     = {Disentangling dataset size from synthetic diversity in tuberculosis chest X-ray classification},
+  author    = {Pink, Connor and Sykes, Ed},
+  booktitle = {Proceedings of the 39th Canadian Conference on Artificial Intelligence},
+  pages     = {954--961},
+  year      = {2026},
+  editor    = {Bouzar-Benlabiod, Lydia and Leung, Carson},
+  volume    = {318},
+  series    = {Proceedings of Machine Learning Research},
+  publisher = {PMLR},
+  url       = {https://proceedings.mlr.press/v318/pink26a.html}
+}</code></pre>
+    </div>
+</section>
+<!--End BibTex citation -->
+  </main>
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            More of my research at <a href="https://connorpink.me/research" target="_blank">connorpink.me</a>.
+          </p>
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  </body>
+  </html>
